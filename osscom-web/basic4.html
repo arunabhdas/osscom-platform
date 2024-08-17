@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Franken UI</title>
+    <link rel="preconnect" href="https://rsms.me/" />
+    <link rel="stylesheet" href="https://rsms.me/inter/inter.css" />
+    <!-- Updated Inter font link -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            font-family: Inter, sans-serif;
+            font-feature-settings: "liga" 1, "calt" 1;
+            /* fix for Chrome */
+        }
+
+        @supports (font-variation-settings: normal) {
+            :root {
+                font-family: InterVariable, sans-serif;
+            }
+        }
+        .red { color: red; }
+
+        .blue { color: blueviolet; }
+
+    </style>
+
+    <!-- For stability in production, it's recommended that you hardcode the latest version in the CDN link. -->
+
+    <link rel="stylesheet" href="https://unpkg.com/franken-wc@latest/dist/css/zinc.min.css" />
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/pikaday/css/pikaday.css">
+    <script src="//unpkg.com/alpinejs" defer></script>
+    <script type="module" src="./project-card.js"></script> 
+    <script>
+        if (
+            localStorage.getItem("color-theme") === "dark" ||
+            (!("color-theme" in localStorage) &&
+                window.matchMedia("(prefers-color-scheme: dark)").matches)
+        ) {
+            document.documentElement.classList.add("dark");
+        } else {
+            document.documentElement.classList.remove("dark");
+        }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@latest/dist/js/uikit.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/uikit@latest/dist/js/uikit-icons.min.js"></script>
+    <script type="module" src="https://unpkg.com/franken-wc@latest/dist/js/wc.iife.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/pikaday/pikaday.js"></script>
+    <script>
+    </script>
+</head>
+
+<body class="bg-background text-foreground">
+    <!-- START CODING HERE -->
+    <div class="uk-flex uk-flex-column uk-flex-middle uk-flex-center">
+        <h1 class="uk-heading-divider">Oss Com Demo</h1>
+        <button class="uk-icon-button" id="theme-toggle">
+            <svg id="theme-toggle-light-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="lucide lucide-sun dark:hidden">
+                <circle cx="12" cy="12" r="4"></circle>
+                <path d="M12 2v2"></path>
+                <path d="M12 20v2"></path>
+                <path d="m4.93 4.93 1.41 1.41"></path>
+                <path d="m17.66 17.66 1.41 1.41"></path>
+                <path d="M2 12h2"></path>
+                <path d="M20 12h2"></path>
+                <path d="m6.34 17.66-1.41 1.41"></path>
+                <path d="m19.07 4.93-1.41 1.41"></path>
+            </svg>
+            <svg id="theme-toggle-dark-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                stroke-linejoin="round" class="lucide lucide-moon hidden dark:block">
+                <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+            </svg>
+        </button>
+        <div x-data="{tweet: 'Type the name of your project!'}">
+            <!-- START CARD -->
+            <div class="uk-card">
+                <div class="uk-card-header">
+                    <h3 class="uk-card-title">Create project</h3>
+                    <p class="uk-margin-small-top uk-text-small text-muted-foreground">
+                        Deploy your new project in one-click.
+                    </p>
+                </div>
+                <div class="uk-card-body uk-padding-remove-top uk-padding-remove-bottom">
+                    <div class="">
+                        <label class="uk-form-label" for="name">Name</label>
+                        <input x-model="tweet" class="uk-input uk-margin-small-top" id="name" type="text"
+                            aria-describedby="name-help-block" placeholder="" />
+                        <div 
+                        x-text="tweet"
+                        id="project-name" 
+                        class="uk-form-help uk-margin-small-top red" 
+                        aria-placeholder="Project Name"
+                        x-bind:class="tweet.length > 20 ? 'red' : 'blue'"
+                        >
+                            
+                        </div>
+                        <div
+                            id="project-name"
+                            aria-placeholder="Project Name"
+                            >
+                            <input
+                                id="project-datepicker"
+                                class="uk-input uk-margin-small-top"
+                                class="uk-form-help uk-margin-small-top"
+                                type="text"
+                            >
+                        </div>
+
+                    </div>
+
+                    <div class="uk-margin">
+                        <label class="uk-form-label" for="framework">Framework</label>
+                        <select class="uk-select uk-margin-small-top" name="framework" id="framework">
+                            <option value="sveltekit">Sveltekit</option>
+                            <option value="astro">Astro</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="uk-card-footer uk-flex uk-flex-between">
+                    <button class="uk-button uk-button-default">Cancel</button>
+                    <button class="uk-button uk-button-primary">Next</button>
+                </div>
+            </div>
+            <!-- END CARD -->
+        </div>
+    </div>
+    <!-- END -->
+    <script>
+        var themeToggleBtn = document.getElementById("theme-toggle");
+
+        themeToggleBtn?.addEventListener("click", function () {
+            // if set via local storage previously
+            if (localStorage.getItem("color-theme")) {
+                if (localStorage.getItem("color-theme") === "light") {
+                    document.documentElement.classList.add("dark");
+                    localStorage.setItem("color-theme", "dark");
+                } else {
+                    document.documentElement.classList.remove("dark");
+                    localStorage.setItem("color-theme", "light");
+                }
+
+                // if NOT set via local storage previously
+            } else {
+                if (document.documentElement.classList.contains("dark")) {
+                    document.documentElement.classList.remove("dark");
+                    localStorage.setItem("color-theme", "light");
+                } else {
+                    document.documentElement.classList.add("dark");
+                    localStorage.setItem("color-theme", "dark");
+                }
+            }
+        });
+    </script>
+    <script>
+        var picker = new Pikaday({ field: document.getElementById('project-datepicker') });
+    </script>
+</body>
+
+</html>

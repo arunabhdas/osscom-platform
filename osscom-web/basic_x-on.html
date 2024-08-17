@@ -1,0 +1,11 @@
+<html>
+    <body style="font-size: 2em; display: flex; justify-content: center; align-items: start; padding-top: 2em;">
+
+    <script src="//unpkg.com/alpinejs" defer></script>
+    </body>
+    <div x-data="{ count: 0}">
+        <button x-on:click="count++">+</button>
+        <button @click="count--">-</button>
+        <span x-text="count"></span>
+    </div>
+</html>
